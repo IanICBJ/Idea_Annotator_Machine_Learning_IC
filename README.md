@@ -1,77 +1,81 @@
 # Idea_Annotator_Machine_Learning_IC
 Machine learning models for the Idea Annotator system, including BERT and T5 pipelines for automatic case-frame extraction from raw text.
-Idea Annotator – Machine Learning (BERT & T5)
+#Idea Annotator – Machine Learning (BERT & T5)
 
-Machine learning development for the Idea Annotator FYP.
-This module trains and evaluates models (BERT & T5) to automatically extract case-frame slots:
+This repository contains the machine learning components of the Idea Annotator Final Year Project. It includes all Jupyter notebooks, datasets, and evaluation pipelines used in Sprint 3 (prototype development) and Sprint 4 (baseline evaluation + model improvement tracks). The goal of this ML component is to automatically extract 5-slot case-frames — ACTOR, ACTION, OBJECT, LOCATION, TIME — from raw user text using BERT and T5 models.
 
-ACTOR
+# Overview (Integrated Summary)
 
-ACTION
+This repository contains the machine learning component of the Idea Annotator FYP, where BERT and T5 models are trained to extract case-frame slots (ACTOR, ACTION, OBJECT, LOCATION, TIME) from text. Sprint 3 develops the prototype pipeline using clean, simple data split into train.jsonl, val.jsonl, and test.jsonl, located in Sprint_3_ML/Data_Required/, and also uses dataset.jsonl and dataset_full.jsonl where needed for combined or extended experiments. The notebooks in Sprint_3_ML/Jupyter_Notebooks/ train baseline BERT and T5 models. Sprint 4 upgrades the system to real, messy idea descriptions, starting from dataset_full.jsonl (the full annotated dataset exported from MongoDB), which is used in Sprint4_Track0_Fixed_Split.ipynb to generate the official dataset idea_annotator_sprint4_split_fixed.jsonl stored in Sprint_4_ML/Data_Required/. All Sprint 4 improvements—baseline evaluation, BERT decoding fixes (Track 1), and T5 JSON repair (Track 2)—are found in Sprint_4_ML/Jupyter_Notebooks/. In short: Sprint 3 = prototype models on clean data with train/val/test + dataset.jsonl; Sprint 4 = realistic data from dataset_full.jsonl + fixed split + model improvement tracks.
 
-OBJECT
-
-LOCATION
-
-TIME
-
-from raw idea descriptions.
-
-This repo contains all notebooks and datasets used across Sprint 3 and Sprint 4, including the fixed dataset split and model improvements.
-
-Tech Stack
-
-Python, Jupyter Notebook
-
-HuggingFace Transformers (BERT, T5)
-
-Pandas
-
-SpaCy (for tokenisation support in Sprint 3)
-
-MongoDB (initial export)
-
-Repository Structure
-Idea_Annotator_ML_Development/
-│
+# Repository Structure
 ├── Sprint_3_ML/
-│   ├── Jupyter_Notebooks/
-│   │    ├── FYP_Sprint_3_BERT.ipynb
-│   │    └── FYP_Sprint_3_T5.ipynb
-│   │
-│   └── Data_Required/
-│        ├── train.jsonl
-│        ├── val.jsonl
-│        └── test.jsonl
+│   ├── Data_Required/
+│   │   ├── dataset.jsonl
+│   │   ├── dataset_full.jsonl
+│   │   ├── train.jsonl
+│   │   ├── val.jsonl
+│   │   └── test.jsonl
+│   └── Jupyter_Notebooks/
+│       ├── BERT_Prototype.ipynb
+│       └── T5_Prototype.ipynb
 │
 ├── Sprint_4_ML/
-│   ├── Jupyter_Notebooks/
-│   │    ├── Sprint4_track_0_Fixed_Split.ipynb
-│   │    ├── Sprint4_Track1_BERT_Improvements.ipynb
-│   │    └── Sprint4_Track2_T5_Improvements.ipynb
-│   │
-│   └── Data_Required/
-│        ├── dataset_full.jsonl
-│        └── idea_annotator_sprint4_split_fixed.jsonl
-│
-└── README.md
+│   ├── Data_Required/
+│   │   ├── dataset_full.jsonl
+│   │   └── idea_annotator_sprint4_split_fixed.jsonl
+│   └── Jupyter_Notebooks/
+│       ├── Sprint4_Track0_Fixed_Split.ipynb
+│       ├── Sprint4_Track1_BERT_Improvements.ipynb
+│       └── Sprint4_Track2_T5_Improvements.ipynb
 
-Key Concept: Difference Between Sprint 3 and Sprint 4
+# Datasets Used in This Repository
 
-This is one of the most important sections for your markers.
-I will write it very clearly and professionally.
+# Sprint 3 – Data Files
 
-Sprint 3 — Prototype Stage (Clean Data, Small Scale)
+- dataset.jsonl
 
-Sprint 3 focused on building the first working prototype of the ML pipeline.
+  Combined clean dataset used in Sprint 3.
 
-Dataset
+  Source file from which the three-way split is created or referenced in some experiments.
 
-350 annotated sentences exported from MongoDB
+- train.jsonl, val.jsonl, test.jsonl
 
-Clean, simple sentences
+  Main Sprint 3 training, validation, and test files.
 
-Data split into:
+  Contain clean, simple sentences with final 5-slot labels.
+
+  Used directly by the Sprint 3 BERT and T5 prototype notebooks for training and evaluation.
+
+- dataset_full.jsonl
+
+  Full annotated dataset exported from MongoDB.
+
+  Used in Sprint 3 when testing or inspecting behaviour on the full set (e.g., bridging towards Sprint 4).
+
+# Sprint 4 – Data Files
+
+- dataset_full.jsonl
+
+  Same full annotated dataset as above.
+
+  Acts as the raw input for creating the official fixed split in Sprint 4.
+
+- idea_annotator_sprint4_split_fixed.jsonl
+
+  Official train/dev/test split file for Sprint 4.
+
+  Generated by Sprint4_Track0_Fixed_Split.ipynb.
+
+  Used by all Sprint 4 tracks (baseline, BERT improvements, T5 improvements) to ensure consistent evaluation.
+
+# Sprint 3: Prototype Models on Clean Data
+
+Sprint 3 builds the first working ML pipeline on a controlled, simplified dataset.
+
+Key Points
+
+Main training and evaluation rely on:
 
 train.jsonl
 
@@ -79,128 +83,107 @@ val.jsonl
 
 test.jsonl
 
-Goal
+dataset.jsonl is used as the combined clean source corpus for these splits and some experiments.
 
-Train small BERT and T5 models to see if automatic case-frame extraction is even feasible.
+dataset_full.jsonl is available when testing on the larger annotated set.
 
-Models
+# Models
 
-BERT (BIO-tagging → JSON reconstruction)
+BERT Prototype
 
-T5 (text → JSON generation)
+Uses BIO tagging over the clean data.
 
-Outcome
-Model	Slot-F1	Frame Validity
-BERT	~0.35	~82%
-T5	~0.37	~58%
-Summary
+Decodes token labels into spans and then into JSON frames.
 
-Sprint 3 confirmed that:
+T5 Prototype
 
-BERT is more structurally reliable
+Learns to map the clean sentence directly into a JSON string.
 
-T5 is more flexible but struggles with JSON formatting
+Provides an early test of generative text-to-JSON modelling.
 
-Automatic extraction is possible, but not stable yet
+Notebooks
 
-Sprint 4 — Realistic Data + Baseline Improvements
+Sprint_3_ML/Jupyter_Notebooks/BERT_Prototype.ipynb
 
-Sprint 4 shifts from “prototype” → real-world performance.
+Sprint_3_ML/Jupyter_Notebooks/T5_Prototype.ipynb
 
-Dataset
+These notebooks show the full prototype workflow: data loading, training, prediction, decoding, and evaluation.
 
-Sprint 4 uses raw idea descriptions (messy, long, multi-sentence).
+# Sprint 4: Realistic Data, Fixed Split, and Model Improvements
 
-The workflow:
+Sprint 4 moves from prototype conditions to realistic, noisy data exported from MongoDB.
 
-dataset_full.jsonl
-Exported from MongoDB (full annotated dataset)
+1. Dataset and Split
 
-Sprint4_track_0_Fixed_Split.ipynb
-Produces the official split:
-→ idea_annotator_sprint4_split_fixed.jsonl
+Uses dataset_full.jsonl as the main raw dataset.
 
-This file becomes the gold standard for all Track 1–2–3 improvements.
+BIO tags are rebuilt against the final 5-slot schema.
 
-Track 0 — Baseline
+Sprint4_Track0_Fixed_Split.ipynb creates idea_annotator_sprint4_split_fixed.jsonl, which is then used everywhere in Sprint 4.
 
-Rebuild BIO tags with final 5-slot schema
+2. Track 0 – Baselines
 
-Create fixed train/dev/test
+Evaluates baseline BERT and T5 on the fixed split.
 
-Re-train BERT and T5 on raw text
+Shows BERT is structurally reliable; T5 collapses without repair due to strict JSON formatting requirements.
 
-Results:
+3. Track 1 – BERT Improvements
 
-Model	Slot-F1	Frame Validity
-BERT	~0.507	~92%
-T5	0.0	0% (invalid JSON)**
+Works on top of the same BERT model.
 
-T5 fails completely due to raw messy text → motivation for Track 2.
+Improves:
 
-Track 1 — BERT Improvements
+BIO → span decoding
 
-Improvements done WITHOUT retraining the model:
+Slot-level cleaning rules
 
-BIO tag correction
+Minimal slot repair heuristics
 
-Span merging
+Produces cleaner and more meaningful case-frames, even if strict Slot-F1 decreases.
 
-Slot phrase cleaning
+4. Track 2 – T5 Improvements
 
-Minimal repair heuristics
+Applies safe decoding and JSON repair to T5 outputs.
 
-Result:
-Cleaner ACTOR/ACTION/OBJECT extraction even if strict F1 drops.
+Recovers syntactically valid JSON from malformed generations.
 
-Track 2 — T5 Improvements
+Semantic accuracy remains limited, but the structure becomes evaluable.
 
-Goal: Fix JSON formatting issues.
+Notebooks
 
-Prompt engineering
+Sprint_4_ML/Jupyter_Notebooks/Sprint4_Track0_Fixed_Split.ipynb
 
-Constrained decoding
+Sprint_4_ML/Jupyter_Notebooks/Sprint4_Track1_BERT_Improvements.ipynb
 
-Multi-step JSON repair pipeline
+Sprint_4_ML/Jupyter_Notebooks/Sprint4_Track2_T5_Improvements.ipynb
 
-Result:
+# How to Use These Notebooks
+Requirements
 
-T5 still weak at slot-filling
+Python 3.10+
 
-But 100% valid JSON
+PyTorch
 
-Evaluation becomes possible again
+HuggingFace Transformers
 
-Summary Table: Sprint 3 vs Sprint 4
-Category	Sprint 3	Sprint 4
-Data	Clean, simple sentences	Raw, messy real descriptions
-Purpose	Prototype ML pipeline	Build real, stable baseline
-Dataset Source	MongoDB export → cleaned	MongoDB export → raw full → fixed split
-BERT Performance	Lower F1, but runs	Much higher validity
-T5 Performance	Works somewhat	Completely breaks → then repaired
-Outputs Used	train/val/test (old split)	idea_annotator_sprint4_split_fixed.jsonl
-Focus	“Can it work?”	“Make it realistic + usable”
-How to Run
-For Sprint 3:
+Standard Python libraries (json, re, etc.)
 
-Open FYP_Sprint_3_BERT.ipynb or FYP_Sprint_3_T5.ipynb
+Suggested Order
 
-Ensure Sprint 3 data folder is in the same structure as repo
+Look at Sprint 3 notebooks to understand the clean prototype setup using train.jsonl, val.jsonl, and test.jsonl.
 
-Run all cells
+Inspect how dataset.jsonl and dataset_full.jsonl relate to these splits.
 
-For Sprint 4:
+Move to Sprint 4 Track 0 to see how dataset_full.jsonl is converted into the fixed split file.
 
-Start with Sprint4_track_0_Fixed_Split.ipynb
+Explore Track 1 and Track 2 to see how BERT and T5 behave on the real dataset and how their outputs are improved.
 
-Then proceed to:
+# Key Takeaways
 
-Sprint4_Track1_BERT_Improvements.ipynb
+Sprint 3 mainly trains on train.jsonl, val.jsonl, and test.jsonl, with dataset.jsonl and dataset_full.jsonl supporting additional experiments.
 
-Sprint4_Track2_T5_Improvements.ipynb
+Sprint 4 standardises evaluation using dataset_full.jsonl and idea_annotator_sprint4_split_fixed.jsonl.
 
-Author
+BERT is robust and improves significantly with better decoding and cleaning.
 
-Ian Chia
-Nanyang Polytechnic — Diploma in Applied AI & Analytics
-Final Year Project — Idea Annotator (ML Module)
+T5 needs heavy repair to be structurally valid and remains limited semantically under these conditions.
