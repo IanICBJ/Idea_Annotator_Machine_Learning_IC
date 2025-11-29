@@ -8,26 +8,25 @@ This repository contains the machine learning components of the Idea Annotator F
 
 This repository contains the machine learning component of the Idea Annotator FYP, where BERT and T5 models are trained to extract case-frame slots (ACTOR, ACTION, OBJECT, LOCATION, TIME) from text. Sprint 3 develops the prototype pipeline using clean, simple data split into train.jsonl, val.jsonl, and test.jsonl, located in Sprint_3_ML/Data_Required/, and also uses dataset.jsonl and dataset_full.jsonl where needed for combined or extended experiments. The notebooks in Sprint_3_ML/Jupyter_Notebooks/ train baseline BERT and T5 models. Sprint 4 upgrades the system to real, messy idea descriptions, starting from dataset_full.jsonl (the full annotated dataset exported from MongoDB), which is used in Sprint4_Track0_Fixed_Split.ipynb to generate the official dataset idea_annotator_sprint4_split_fixed.jsonl stored in Sprint_4_ML/Data_Required/. All Sprint 4 improvements—baseline evaluation, BERT decoding fixes (Track 1), and T5 JSON repair (Track 2)—are found in Sprint_4_ML/Jupyter_Notebooks/. In short: Sprint 3 = prototype models on clean data with train/val/test + dataset.jsonl; Sprint 4 = realistic data from dataset_full.jsonl + fixed split + model improvement tracks.
 
-# Repository Structure
-├── Sprint_3_ML/
-│   ├── Data_Required/
-│   │   ├── dataset.jsonl
-│   │   ├── dataset_full.jsonl
-│   │   ├── train.jsonl
-│   │   ├── val.jsonl
-│   │   └── test.jsonl
-│   └── Jupyter_Notebooks/
-│       ├── BERT_Prototype.ipynb
-│       └── T5_Prototype.ipynb
-│
-├── Sprint_4_ML/
-│   ├── Data_Required/
-│   │   ├── dataset_full.jsonl
-│   │   └── idea_annotator_sprint4_split_fixed.jsonl
-│   └── Jupyter_Notebooks/
-│       ├── Sprint4_Track0_Fixed_Split.ipynb
-│       ├── Sprint4_Track1_BERT_Improvements.ipynb
-│       └── Sprint4_Track2_T5_Improvements.ipynb
+## Repository Structure
+### Sprint_3_ML
+Data_Required:
+  - dataset.jsonl
+  - dataset_full.jsonl
+  - train.jsonl
+  - val.jsonl
+  - test.jsonl
+Jupyter_Notebooks
+BERT_Prototype.ipynb
+T5_Prototype.ipynb
+
+print_4_ML
+Data_Required
+dataset_full.jsonl
+idea_annotator_sprint4_split_fixed.jsonl
+ Jupyter_Notebooks/Sprint4_Track0_Fixed_Split.ipynb
+Sprint4_Track1_BERT_Improvements.ipynb
+Sprint4_Track2_T5_Improvements.ipynb
 
 # Datasets Used in This Repository
 
